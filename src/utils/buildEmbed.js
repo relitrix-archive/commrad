@@ -3,7 +3,7 @@ const truncateString = require('./truncString')
 
 module.exports = ({ title, date, content, authorName, authorPic, authorLink, vidThumbnail, vidLink, creator }) => {
     return new EmbedBuilder({
-        author: { name: authorName ? truncateString(escapeMarkdown(authorName), 256) : null, iconURL: authorPic || null, url: authorLink || null },
+        author: { name: authorName ? truncateString(authorName, 256) : null, iconURL: authorPic || null, url: authorLink || null },
         description: truncateString(escapeMarkdown(content), 4096),
         thumbnail: { url: vidThumbnail || null },
         title: title ? truncateString(escapeMarkdown(title), 256) : null,

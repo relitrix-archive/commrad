@@ -2,6 +2,7 @@ const fetchComms = require('../utils/fetchComms')
 const buildEmbed = require('../utils/buildEmbed')
 const chunkArray = require('../utils/chunkArray')
 const fetchVideos = require('../utils/fetchVideos')
+const linkifyTimestamps = require('../utils/linkifyTimestamps')
 
 module.exports = async () => {
     const client = process.disClient
@@ -23,15 +24,16 @@ module.exports = async () => {
                 console.log("Failed to get basicInfo")
                 console.error(e)
             } */
+           const vidLink = `https://youtube.com/watch?v=${comm.vidId}&lc=${comm.id}`
            const video = videos.get(comm.vidId)
             return buildEmbed({
                 title: video?.title ?? 'Link to video',
                 authorLink: comm.authorLink,
                 authorName: comm.authorName,
                 authorPic: comm.authorPic,
-                content: comm.content,
+                content: linkifyTimestamps(comm.content, vidLink),
                 date: comm.date,
-                vidLink: `https://youtube.com/watch?v=${comm.vidId}&lc=${comm.id}`,
+                vidLink,
                 vidThumbnail: video?.thumbnails?.medium?.url ?? null,
                 creator: creator
             })

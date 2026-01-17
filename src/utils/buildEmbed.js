@@ -1,6 +1,5 @@
 const { EmbedBuilder, escapeMarkdown } = require("discord.js");
-const truncateString = require('./truncString')
-
+const truncateString = require('./truncString');
 module.exports = ({ title, date, content, authorName, authorPic, authorLink, vidThumbnail, vidLink, creator }) => {
     return new EmbedBuilder({
         author: { name: authorName ? truncateString(authorName, 256) : null, iconURL: authorPic || null, url: authorLink || null },

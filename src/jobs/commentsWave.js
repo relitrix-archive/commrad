@@ -62,10 +62,10 @@ module.exports = async () => {
                 const embeds = await makeEmbeds(newComms, { name: youtubeChannel?.metadata?.title, pic: youtubeChannel?.metadata?.thumbnail?.[0]?.url })
                 const chunks = chunkArray(embeds.reverse(), 10)
                 const messagePromises = chunks.map(async chunk => {
-                    await discordChannel.send({ embeds: chunk })
+                    await discordChannel.send({ embeds: chunk }).catch((err) => console.error(err))
                     commentsSendedCounter += chunk.length
                 })
-                await Promise.all(messagePromises)
+                await Promise.allSettled(messagePromises)
                 return await GuildSchema.updateOne({ Guild: guild.id, Pairs: { $elemMatch: { discordChannel: pair.discordChannel, youtubeChannel: pair.youtubeChannel } } }, { "Pairs.$[].date": new Date() })
             })
         })
